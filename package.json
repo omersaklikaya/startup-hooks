@@ -1,0 +1,25 @@
+{
+  "name": "startup-hooks",
+  "version": "1.0.0",
+  "description": "A collection of production-ready React custom hooks for modern web apps.",
+  "main": "src/index.js",
+  "keywords": [
+    "react",
+    "hooks",
+    "custom-hooks",
+    "useWindowSize",
+    "useLocalStorage",
+    "useScroll",
+    "useForm",
+    "useDebounce"
+  ],
+  "author": "",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USERNAME/startup-hooks"
+  }
+}
