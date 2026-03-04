@@ -5,17 +5,19 @@
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![React](https://img.shields.io/badge/react-%3E%3D16.8-61DAFB.svg)](https://reactjs.org/)
 
+> Created and maintained by [Ömer Saklıkaya](https://github.com/omersaklikaya)
+
 ---
 
 ## Hooks
 
-| Hook | Description |
-|---|---|
-| [`useWindowSize`](#usewindowsize) | Reactive window dimensions |
+| Hook                                  | Description                  |
+| ------------------------------------- | ---------------------------- |
+| [`useWindowSize`](#usewindowsize)     | Reactive window dimensions   |
 | [`useLocalStorage`](#uselocalstorage) | State synced to localStorage |
-| [`useScroll`](#usescroll) | Scroll position + direction |
-| [`useForm`](#useform) | Form state + validation |
-| [`useDebounce`](#usedebounce) | Debounce any value |
+| [`useScroll`](#usescroll)             | Scroll position + direction  |
+| [`useForm`](#useform)                 | Form state + validation      |
+| [`useDebounce`](#usedebounce)         | Debounce any value           |
 
 ---
 
@@ -33,7 +35,13 @@ All hooks are also available as standalone files — just copy the one you need 
 ## Usage
 
 ```js
-import { useWindowSize, useLocalStorage, useScroll, useForm, useDebounce } from 'startup-hooks';
+import {
+  useWindowSize,
+  useLocalStorage,
+  useScroll,
+  useForm,
+  useDebounce,
+} from "startup-hooks";
 ```
 
 ---
@@ -43,13 +51,15 @@ import { useWindowSize, useLocalStorage, useScroll, useForm, useDebounce } from 
 Returns the current browser window dimensions. Updates automatically on resize. SSR-safe.
 
 ```jsx
-import { useWindowSize } from 'startup-hooks';
+import { useWindowSize } from "startup-hooks";
 
 function Layout() {
   const { width, height } = useWindowSize();
 
   return (
-    <p>Window: {width} × {height}px</p>
+    <p>
+      Window: {width} × {height}px
+    </p>
   );
 }
 ```
@@ -63,13 +73,13 @@ function Layout() {
 Drop-in replacement for `useState` that persists to `localStorage`. Handles JSON serialization automatically.
 
 ```jsx
-import { useLocalStorage } from 'startup-hooks';
+import { useLocalStorage } from "startup-hooks";
 
 function ThemeToggle() {
-  const [theme, setTheme] = useLocalStorage('theme', 'dark');
+  const [theme, setTheme] = useLocalStorage("theme", "dark");
 
   return (
-    <button onClick={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}>
+    <button onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}>
       Current: {theme}
     </button>
   );
@@ -86,14 +96,14 @@ function ThemeToggle() {
 Tracks scroll position, direction, and edge states. Uses a passive listener — no performance impact.
 
 ```jsx
-import { useScroll } from 'startup-hooks';
+import { useScroll } from "startup-hooks";
 
 function Navbar() {
   const { y, direction } = useScroll();
-  const visible = direction !== 'down' || y < 80;
+  const visible = direction !== "down" || y < 80;
 
   return (
-    <nav style={{ transform: visible ? 'translateY(0)' : 'translateY(-100%)' }}>
+    <nav style={{ transform: visible ? "translateY(0)" : "translateY(-100%)" }}>
       My Nav
     </nav>
   );
@@ -109,18 +119,23 @@ function Navbar() {
 Manages form values, validation errors, touched state, and async submission — no external library needed.
 
 ```jsx
-import { useForm } from 'startup-hooks';
+import { useForm } from "startup-hooks";
 
 function LoginForm() {
-  const { values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting } = useForm(
-    { email: '', password: '' },
-    (vals) => {
-      const errs = {};
-      if (!vals.email.includes('@')) errs.email = 'Invalid email';
-      if (vals.password.length < 6) errs.password = 'Min 6 characters';
-      return errs;
-    }
-  );
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    isSubmitting,
+  } = useForm({ email: "", password: "" }, (vals) => {
+    const errs = {};
+    if (!vals.email.includes("@")) errs.email = "Invalid email";
+    if (vals.password.length < 6) errs.password = "Min 6 characters";
+    return errs;
+  });
 
   const onSubmit = handleSubmit(async (data) => {
     await api.login(data);
@@ -128,14 +143,25 @@ function LoginForm() {
 
   return (
     <form onSubmit={onSubmit}>
-      <input name="email" value={values.email} onChange={handleChange} onBlur={handleBlur} />
+      <input
+        name="email"
+        value={values.email}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
       {touched.email && errors.email && <span>{errors.email}</span>}
 
-      <input name="password" type="password" value={values.password} onChange={handleChange} onBlur={handleBlur} />
+      <input
+        name="password"
+        type="password"
+        value={values.password}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
       {touched.password && errors.password && <span>{errors.password}</span>}
 
       <button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Logging in...' : 'Login'}
+        {isSubmitting ? "Logging in..." : "Login"}
       </button>
     </form>
   );
@@ -152,18 +178,24 @@ function LoginForm() {
 Delays propagating a value until after a quiet period. Ideal for search inputs and API calls.
 
 ```jsx
-import { useState, useEffect } from 'react';
-import { useDebounce } from 'startup-hooks';
+import { useState, useEffect } from "react";
+import { useDebounce } from "startup-hooks";
 
 function Search() {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query, 400);
 
   useEffect(() => {
     if (debouncedQuery) fetchResults(debouncedQuery);
   }, [debouncedQuery]);
 
-  return <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search..." />;
+  return (
+    <input
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+      placeholder="Search..."
+    />
+  );
 }
 ```
 
@@ -189,4 +221,4 @@ PRs welcome! If you have a hook you find yourself rewriting on every project, op
 
 ## License
 
-MIT © startup-hooks contributors
+MIT © [Ömer Saklıkaya](https://github.com/omersaklikaya)

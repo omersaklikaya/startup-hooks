@@ -13,13 +13,13 @@
     "useForm",
     "useDebounce"
   ],
-  "author": "",
+  "author": "Ömer Saklıkaya <https://github.com/omersaklikaya>",
   "license": "MIT",
   "peerDependencies": {
     "react": ">=16.8.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/YOUR_USERNAME/startup-hooks"
+    "url": "https://github.com/omersaklikaya/startup-hooks"
   }
 }
